@@ -1,0 +1,29 @@
+/**
+ * Appcelerator Titanium Mobile
+ * Copyright (c) 2009-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ */
+
+#import <AVFoundation/AVFoundation.h>
+#import <UIKit/UIKit.h>
+
+@protocol TiImageCaptureDelegate <NSObject>
+
+- (void)didCaptureImage:(UIImage *)image;
+
+@end
+
+@interface TiCameraViewController : UIViewController
+{
+    
+}
+
+@property(nonatomic, assign)id <TiImageCaptureDelegate> delegate;
+
+-(void)setTorchMode:(AVCaptureTorchMode)torchMode;
+-(void)setFlashMode:(AVCaptureFlashMode)flashMode;
+-(void)setFocusMode:(AVCaptureFocusMode)focusMode;
+
+@end

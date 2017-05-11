@@ -1,0 +1,25 @@
+-x
+objective-c
+-arch
+arm64
+-std=c99
+-fpascal-strings
+-Os
+-DTI_VERSION=
+-isysroot
+/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk
+-miphoneos-version-min=6.0
+-g
+-fembed-bitcode-marker
+-iquote
+-iquote
+-I/Users/vijaysingh/Documents/Appcelerator_Studio_Workspace/CameraView/iphone/build/Release-iphoneos/include
+-I/Users/vijaysingh/Library/Application Support/Titanium/mobilesdk/osx/6.0.3.GA/iphone/include
+-I/Users/vijaysingh/Library/Application Support/Titanium/mobilesdk/osx/6.0.3.GA/iphone/include/TiCore
+-I/Users/vijaysingh/Library/Application Support/Titanium/mobilesdk/osx/6.0.3.GA/iphone/include/JavaScriptCore
+-F/Users/vijaysingh/Documents/Appcelerator_Studio_Workspace/CameraView/iphone/build/Release-iphoneos
+-DTI_POST_1_2
+aarch64-apple-darwin16.5.0
+"4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.38)"
+SDK_PRODUCT_BUILD_VERSION=14E269
+14E269
