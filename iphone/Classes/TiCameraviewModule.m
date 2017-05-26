@@ -53,13 +53,6 @@
 
 #pragma mark Cleanup
 
--(void)dealloc
-{
-	// release any resources that have been retained by the module
-	[super dealloc];
-    RELEASE_TO_NIL(cameraViewController);
-}
-
 #pragma mark Internal Memory Management
 
 -(void)didReceiveMemoryWarning:(NSNotification*)notification
@@ -69,115 +62,69 @@
 	[super didReceiveMemoryWarning:notification];
 }
 
-#pragma mark Listener Notifications
-
--(void)_listenerAdded:(NSString *)type count:(int)count
-{
-	if (count == 1 && [type isEqualToString:@"my_event"])
-	{
-		// the first (of potentially many) listener is being added
-		// for event named 'my_event'
-	}
-}
-
--(void)_listenerRemoved:(NSString *)type count:(int)count
-{
-	if (count == 0 && [type isEqualToString:@"my_event"])
-	{
-		// the last listener called for event named 'my_event' has
-		// been removed, we can optionally clean up any resources
-		// since no body is listening at this point for that event
-	}
-}
-
 #pragma Public APIs
 
--(id)example:(id)args
+- (id)createCamera:(id)args
 {
-	// example method
-	return @"hello world";
-}
-
--(id)exampleProp
-{
-	// example property getter
-	return @"hello world";
-}
-
--(void)setExampleProp:(id)value
-{
-	// example property setter
-}
-
--(void)openCamera:(id)args
-{
-    ENSURE_SINGLE_ARG_OR_NIL(args,NSDictionary);
-    if (![NSThread isMainThread])
-    {
-        TiThreadPerformOnMainThread(^{[self openCamera:args];},NO);
-        return;
+    if (self = [super init]) {
+        ENSURE_SINGLE_ARG_OR_NIL(args,NSDictionary);
+        saveToRoll = false;
+        cameraViewController = [[TiCameraViewController alloc] init];
+        cameraViewController.delegate = self;
+        if (args != nil) {
+            [self callbackSetup:args];
+            saveToRoll = [TiUtils boolValue:@"saveToPhotoGallery" properties:args def:NO];
+            
+            id torchMode = [args objectForKey:@"torchMode"];
+            if (torchMode) {
+                [self setTorchMode:torchMode];
+            }
+            
+            id flashMode = [args objectForKey:@"flashMode"];
+            if (flashMode) {
+                [self setFlashMode:flashMode];
+            }
+        }
+        return self;
     }
-    [self showCamera:args];
 }
-
--(void)showCamera:(id)args
+- (void)open:(id)args
 {
-    saveToRoll = false;
-    cameraViewController = [[TiCameraViewController alloc] init];
-    cameraViewController.delegate = self;
+    ENSURE_UI_THREAD(open, args);
     [[TiApp app] showModalController:cameraViewController animated:true];
-    if (args != nil)
-    {
-        [self callbackSetup:args];
-        saveToRoll = [TiUtils boolValue:@"saveToPhotoGallery" properties:args def:NO];
-        
-        id torchMode = [args objectForKey:@"torchMode"];
-        if (torchMode)
-        {
-            [self setTorchMode:torchMode];
-        }
-        id flashMode = [args objectForKey:@"flashMode"];
-        if (flashMode)
-        {
-            [self setFlashMode:flashMode];
-        }
-    }
 }
 
--(void)setTorchMode:(id)value
+- (void)setTorchMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
     ENSURE_UI_THREAD(setTorchMode,value);
     
-    if (cameraViewController!=nil)
-    {
+    if (cameraViewController != nil) {
         [cameraViewController setTorchMode:[TiUtils intValue:value]];
     }
 }
 
--(void)setFlashMode:(id)value
+- (void)setFlashMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
     ENSURE_UI_THREAD(setFlashMode,value);
     
-    if (cameraViewController!=nil)
-    {
+    if (cameraViewController != nil) {
         [cameraViewController setFlashMode:[TiUtils intValue:value]];
     }
 }
 
--(void)setFocushMode:(id)value
+- (void)setFocushMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
     ENSURE_UI_THREAD(setFocushMode,value);
     
-    if (cameraViewController!=nil)
-    {
-        [cameraViewController setFocushMode:[TiUtils intValue:value]];
+    if (cameraViewController != nil) {
+        [cameraViewController setFocusMode:[TiUtils intValue:value]];
     }
 }
 
--(void)callbackSetup:(NSDictionary *)args
+- (void)callbackSetup:(NSDictionary *)args
 {
     id save = [args objectForKey:@"saveToPhotoGallery"];
     successCallback = [args objectForKey:@"success"];
@@ -212,8 +159,7 @@
 -(void)sendPickerSuccess:(id)event
 {
     id listener = [[successCallback retain] autorelease];
-    if (listener!=nil)
-    {
+    if (listener != nil) {
 #ifdef TI_USE_KROLL_THREAD
         [NSThread detachNewThreadSelector:@selector(dispatchCallback:) toTarget:self withObject:[NSArray arrayWithObjects:@"success",event,listener,nil]];
 #else
@@ -231,8 +177,7 @@
     TiBlob *media = [[[TiBlob alloc] _initWithPageContext:[self pageContext]] autorelease];
     [media setImage:resultImage];
     
-    if (saveToRoll)
-    {
+    if (saveToRoll) {
         UIImageWriteToSavedPhotosAlbum(resultImage, nil, nil, NULL);
     }
     

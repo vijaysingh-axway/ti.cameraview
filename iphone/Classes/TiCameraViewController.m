@@ -93,28 +93,24 @@
     
     for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo])
     {
-        if (device.position == AVCaptureDevicePositionBack)
-        {
+        if (device.position == AVCaptureDevicePositionBack) {
             self.currentCameraDevice = device;
         }
-        else
-        {
+        else {
             // self.currentCameraDevice = device;
         }
     }
     
     NSError *error = nil;
     AVCaptureDeviceInput *inputDevice = [AVCaptureDeviceInput deviceInputWithDevice:self.currentCameraDevice error:&error];
-    if ([self.session canAddInput:inputDevice])
-    {
+    if ([self.session canAddInput:inputDevice]) {
         [self.session addInput:inputDevice];
     }
     
     self.stillImageOutPut = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = @{AVVideoCodecKey : AVVideoCodecJPEG};
     [self.stillImageOutPut setOutputSettings:outputSettings];
-    if ([self.session canAddOutput:self.stillImageOutPut])
-    {
+    if ([self.session canAddOutput:self.stillImageOutPut]) {
         [self.session addOutput:self.stillImageOutPut];
     }
 }
@@ -147,17 +143,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate
+- (BOOL)shouldAutorotate
 {
     return YES;
 }
 
--(UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
 
--(void)captureImage
+- (void)captureImage
 {
     AVCaptureConnection *videoConnection = [self.stillImageOutPut connectionWithMediaType:AVMediaTypeVideo];
     videoConnection.videoOrientation = [self getVideoOrienation];
@@ -176,48 +172,43 @@
     [self setTorchMode:AVCaptureTorchModeOff];
 }
 
--(void)cancel
+- (void)cancel
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)setTorchMode:(AVCaptureTorchMode)torchMode
+- (void)setTorchMode:(AVCaptureTorchMode)torchMode
 {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasTorch])
-    {
+    if ([device hasTorch]) {
         [device lockForConfiguration:nil];
-        if ([device isTorchModeSupported:torchMode])
-        {
+        if ([device isTorchModeSupported:torchMode]) {
             [device setTorchMode:torchMode];
         }
         [device unlockForConfiguration];
     }
 }
 
--(void)setFlashMode:(AVCaptureFlashMode)flashMode
+- (void)setFlashMode:(AVCaptureFlashMode)flashMode
 {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasFlash])
-    {
+    if ([device hasFlash]) {
         [device lockForConfiguration:nil];
-        if ([device isFlashModeSupported:flashMode])
-        {
+        if ([device isFlashModeSupported:flashMode]) {
             [device setFlashMode:flashMode];
         }
         [device unlockForConfiguration];
     }
 }
 
--(void)setFocusMode:(AVCaptureFocusMode)focusMode
+- (void)setFocusMode:(AVCaptureFocusMode)focusMode
 {
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-        [device lockForConfiguration:nil];
-        if ([device isFocusModeSupported:focusMode])
-        {
-            [device setFocusMode:focusMode];
-        }
-        [device unlockForConfiguration];
+    [device lockForConfiguration:nil];
+    if ([device isFocusModeSupported:focusMode]) {
+        [device setFocusMode:focusMode];
+    }
+    [device unlockForConfiguration];
 }
 @end
 
