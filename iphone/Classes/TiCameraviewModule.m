@@ -87,6 +87,22 @@
     [[TiApp app] showModalController:cameraViewController animated:true];
 }
 
+- (void)add:(id)arg
+{
+    ENSURE_SINGLE_ARG_OR_NIL(arg, TiViewProxy);
+    ENSURE_UI_THREAD(add,arg);
+    if (cameraViewController != nil) {
+        TiViewProxy *viewProxy = [arg retain];
+        UIView *view = [viewProxy view];
+        
+        ApplyConstraintToViewWithBounds([viewProxy layoutProperties], (TiUIView *)view, [cameraViewController.view bounds]);
+        
+        [viewProxy windowWillOpen];
+        [cameraViewController.view addSubview:view];
+        [viewProxy windowDidOpen];
+    }
+}
+
 - (void)setTorchMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);

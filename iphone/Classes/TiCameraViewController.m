@@ -24,11 +24,11 @@
 -(void)viewDidLoad
 {
     //cameraType = CameraTypeRear;
+    [self configureCamera];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self configureCamera];
     [self addCaptureButton];
     [self addCancelButton];
     [self.session startRunning];
@@ -122,6 +122,7 @@
     
     NSError *error = nil;
     AVCaptureDeviceInput *inputDevice = [AVCaptureDeviceInput deviceInputWithDevice:self.currentCameraDevice error:&error];
+    [self.session removeInput:self.session.inputs.firstObject];
     if ([self.session canAddInput:inputDevice]) {
         [self.session addInput:inputDevice];
     }
@@ -237,7 +238,12 @@
 {
     cameraType = camera;
     if (self.session) {
-        [self addInputDeviceForCameraType:cameraType];
+        
+        [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+        } completion:^(BOOL finished) {
+            [self addInputDeviceForCameraType:cameraType];
+        }];
+       // + (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion
     }
 }
 
