@@ -55,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		197367521EFCD07E0031CE46 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		19C987301EC3F4690039D262 /* TiCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraViewController.h; path = Classes/TiCameraViewController.h; sourceTree = "<group>"; };
 		19C987311EC3F4690039D262 /* TiCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiCameraViewController.m; path = Classes/TiCameraViewController.m; sourceTree = "<group>"; };
 		24DD6CF71134B3F500162E58 /* TiCameraviewModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraviewModule.h; path = Classes/TiCameraviewModule.h; sourceTree = "<group>"; };
@@ -115,6 +116,7 @@
 				24DD6CF81134B3F500162E58 /* TiCameraviewModule.m */,
 				19C987301EC3F4690039D262 /* TiCameraViewController.h */,
 				19C987311EC3F4690039D262 /* TiCameraViewController.m */,
+				197367521EFCD07E0031CE46 /* Constants.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

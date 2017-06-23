@@ -23,15 +23,17 @@
 
 -(void)viewDidLoad
 {
+    //cameraType = CameraTypeRear;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self openCameraWithArgs:nil];
+    [self configureCamera];
     [self addCaptureButton];
     [self addCancelButton];
     [self.session startRunning];
 }
+
 -(void)dealloc
 {
     RELEASE_TO_NIL(self.session);
@@ -80,8 +82,17 @@
     [cancelLabel addSubview:line2];
 }
 
--(void)openCameraWithArgs:(id)args
+- (void)configureCamera
 {
+    [self initializeCameraSession];
+    [self addInputDeviceForCameraType:cameraType];
+    [self addImageOutput];
+}
+
+- (void)initializeCameraSession
+{
+    RELEASE_TO_NIL(self.previewLayer);
+    RELEASE_TO_NIL(self.session);
     self.session = [[AVCaptureSession alloc] init];
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -90,14 +101,22 @@
     self.previewLayer.bounds = rect;
     self.previewLayer.position = CGPointMake(CGRectGetMidX(rect),CGRectGetMidY(rect));
     [self.view.layer addSublayer:self.previewLayer];
-    
-    for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo])
-    {
-        if (device.position == AVCaptureDevicePositionBack) {
-            self.currentCameraDevice = device;
-        }
-        else {
-            // self.currentCameraDevice = device;
+}
+
+- (void)addInputDeviceForCameraType:(CameraType)camera
+{
+    for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
+        switch (cameraType) {
+            case CameraTypeFront:
+                if (device.position == AVCaptureDevicePositionFront) {
+                    self.currentCameraDevice = device;
+                }
+                break;
+            case CameraTypeRear:
+                if (device.position == AVCaptureDevicePositionBack) {
+                    self.currentCameraDevice = device;
+                }
+                break;
         }
     }
     
@@ -106,7 +125,10 @@
     if ([self.session canAddInput:inputDevice]) {
         [self.session addInput:inputDevice];
     }
-    
+}
+
+- (void)addImageOutput
+{
     self.stillImageOutPut = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = @{AVVideoCodecKey : AVVideoCodecJPEG};
     [self.stillImageOutPut setOutputSettings:outputSettings];
@@ -158,8 +180,7 @@
     AVCaptureConnection *videoConnection = [self.stillImageOutPut connectionWithMediaType:AVMediaTypeVideo];
     videoConnection.videoOrientation = [self getVideoOrienation];
     
-    if (videoConnection)
-    {
+    if (videoConnection) {
         [self.stillImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             CFDictionaryRef metadata = CMGetAttachment(imageDataSampleBuffer, kCGImagePropertyExifDictionary, NULL);
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
@@ -174,6 +195,7 @@
 
 - (void)cancel
 {
+    [self setTorchMode:AVCaptureTorchModeOff];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -210,5 +232,14 @@
     }
     [device unlockForConfiguration];
 }
+
+- (void)setCameraType:(CameraType)camera
+{
+    cameraType = camera;
+    if (self.session) {
+        [self addInputDeviceForCameraType:cameraType];
+    }
+}
+
 @end
 

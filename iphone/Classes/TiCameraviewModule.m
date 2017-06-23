@@ -13,19 +13,18 @@
 #import "TiUtils.h"
 #import "TiApp.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Constants.h"
 
 @implementation TiCameraviewModule
 
 #pragma mark Internal
 
-// this is generated for your module, please do not change it
--(id)moduleGUID
+- (id)moduleGUID
 {
 	return @"11297d48-f1a0-4690-af76-e8398f9a6900";
 }
 
-// this is generated for your module, please do not change it
--(NSString*)moduleId
+- (NSString *)moduleId
 {
 	return @"ti.cameraview";
 }
@@ -34,20 +33,11 @@
 
 -(void)startup
 {
-	// this method is called when the module is first loaded
-	// you *must* call the superclass
 	[super startup];
-
-	NSLog(@"[INFO] %@ loaded",self);
 }
 
--(void)shutdown:(id)sender
+- (void)shutdown:(id)sender
 {
-	// this method is called when the module is being unloaded
-	// typically this is during shutdown. make sure you don't do too
-	// much processing here or the app will be quit forceably
-
-	// you *must* call the superclass
 	[super shutdown:sender];
 }
 
@@ -55,10 +45,8 @@
 
 #pragma mark Internal Memory Management
 
--(void)didReceiveMemoryWarning:(NSNotification*)notification
+- (void)didReceiveMemoryWarning:(NSNotification*)notification
 {
-	// optionally release any resources that can be dynamically
-	// reloaded once memory is available - such as caches
 	[super didReceiveMemoryWarning:notification];
 }
 
@@ -83,6 +71,11 @@
             id flashMode = [args objectForKey:@"flashMode"];
             if (flashMode) {
                 [self setFlashMode:flashMode];
+            }
+            
+            id cameraType = [args objectForKey:@"cameraType"];
+            if (cameraType) {
+                [self setCameraType:cameraType];
             }
         }
         return self;
@@ -121,6 +114,16 @@
     
     if (cameraViewController != nil) {
         [cameraViewController setFocusMode:[TiUtils intValue:value]];
+    }
+}
+
+- (void)setCameraType:(id)value
+{
+    ENSURE_SINGLE_ARG(value,NSNumber);
+    ENSURE_UI_THREAD(setCameraType,value);
+    
+    if (cameraViewController != nil) {
+        [cameraViewController setCameraType:[TiUtils intValue:value]];
     }
 }
 
@@ -201,4 +204,7 @@ MAKE_SYSTEM_PROP(FLASH_MODE_AUTO,AVCaptureFlashModeAuto);
 MAKE_SYSTEM_PROP(FOCUS_MODE_LOCKED,AVCaptureFocusModeLocked);
 MAKE_SYSTEM_PROP(FOCUS_MODE_AUTO_FOCUS,AVCaptureFocusModeAutoFocus);
 MAKE_SYSTEM_PROP(FOCUS_MODE_CONTINUOUS_AUTO_FOCUS,AVCaptureFocusModeContinuousAutoFocus);
+
+MAKE_SYSTEM_PROP(CAMERA_TYPE_FRONT,CameraTypeFront);
+MAKE_SYSTEM_PROP(CAMERA_TYPE_REAR,CameraTypeRear);
 @end
