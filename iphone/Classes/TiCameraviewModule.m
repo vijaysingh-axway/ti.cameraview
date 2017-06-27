@@ -57,11 +57,18 @@
     if (self = [super init]) {
         ENSURE_SINGLE_ARG_OR_NIL(args,NSDictionary);
         saveToRoll = false;
+        cameraViewController.delegate = nil;
+        RELEASE_TO_NIL(cameraViewController);
         cameraViewController = [[TiCameraViewController alloc] init];
         cameraViewController.delegate = self;
         if (args != nil) {
             [self callbackSetup:args];
             saveToRoll = [TiUtils boolValue:@"saveToPhotoGallery" properties:args def:NO];
+            
+            id showControl = [args objectForKey:@"showControl"];
+            if (showControl) {
+                [self showNativeControl:showControl];
+            }
             
             id torchMode = [args objectForKey:@"torchMode"];
             if (torchMode) {
@@ -103,6 +110,14 @@
     }
 }
 
+- (void)showNativeControl:(id)value
+{
+    ENSURE_SINGLE_ARG(value,NSNumber);    
+    if (cameraViewController != nil) {
+        [cameraViewController showNativeControl:[TiUtils boolValue:value def:NO]];
+    }
+}
+
 - (void)setTorchMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
@@ -111,6 +126,10 @@
     if (cameraViewController != nil) {
         [cameraViewController setTorchMode:[TiUtils intValue:value]];
     }
+}
+- (NSNumber *)torchMode
+{
+    return NUMINT(cameraViewController.torchMode);
 }
 
 - (void)setFlashMode:(id)value
@@ -123,6 +142,11 @@
     }
 }
 
+- (NSNumber *)flashMode
+{
+    return NUMINT(cameraViewController.flashMode);
+}
+
 - (void)setFocushMode:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
@@ -133,6 +157,11 @@
     }
 }
 
+- (NSNumber *)focusMode
+{
+    return NUMINT(cameraViewController.focusMode);
+}
+
 - (void)setCameraType:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
@@ -141,6 +170,18 @@
     if (cameraViewController != nil) {
         [cameraViewController setCameraType:[TiUtils intValue:value]];
     }
+}
+
+- (void)captureImage:(id)arg
+{
+    ENSURE_UI_THREAD(captureImage, arg);
+    if (cameraViewController != nil) {
+        [cameraViewController captureImage];
+    }
+}
+- (CameraType)cameraType
+{
+    return NUMINT(cameraViewController.cameraType);
 }
 
 - (void)callbackSetup:(NSDictionary *)args
@@ -205,6 +246,8 @@
     [dictionary setObject:media forKey:@"media"];
     
     [self sendPickerSuccess:dictionary];
+    cameraViewController.delegate = nil;
+    RELEASE_TO_NIL(cameraViewController);
 }
 
 #pragma mark Constants

@@ -18,14 +18,19 @@
 @interface TiCameraViewController : UIViewController
 {
     @private
-    CameraType cameraType;
+    CameraType _cameraType;
+    UILabel *captureLabel;
+    UILabel *cancelLabel;
+    BOOL shouldShowControl;
 }
 
 @property(nonatomic, assign)id <TiImageCaptureDelegate> delegate;
+@property(nonatomic)AVCaptureTorchMode torchMode;
+@property(nonatomic)AVCaptureFlashMode flashMode;
+@property(nonatomic)AVCaptureFocusMode focusMode;
+@property(nonatomic)CameraType cameraType;
 
-- (void)setTorchMode:(AVCaptureTorchMode)torchMode;
-- (void)setFlashMode:(AVCaptureFlashMode)flashMode;
-- (void)setFocusMode:(AVCaptureFocusMode)focusMode;
-- (void)setCameraType:(CameraType)camera;
+- (void)showNativeControl:(BOOL)show;
+- (void)captureImage;
 
 @end

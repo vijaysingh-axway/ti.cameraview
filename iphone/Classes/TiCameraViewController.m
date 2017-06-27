@@ -21,71 +21,88 @@
 
 @implementation TiCameraViewController
 
--(void)viewDidLoad
+- (id)init
 {
-    //cameraType = CameraTypeRear;
+    if (self = [super init]) {
+        _cameraType = CameraTypeRear;
+        shouldShowControl = NO;
+        return self;
+    }
+}
+
+- (void)viewDidLoad
+{
     [self configureCamera];
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [self addCaptureButton];
-    [self addCancelButton];
+    if (shouldShowControl) {
+        [self addCaptureButton];
+        [self addCancelButton];
+    }
     [self.session startRunning];
 }
 
--(void)dealloc
+- (void)dealloc
 {
+    [self.session stopRunning];
     RELEASE_TO_NIL(self.session);
     RELEASE_TO_NIL(self.previewLayer);
     RELEASE_TO_NIL(self.stillImageOutPut);
+    RELEASE_TO_NIL(captureLabel);
+    RELEASE_TO_NIL(cancelLabel);
     [super dealloc];
 }
 
--(void)addCaptureButton
+- (void)addCaptureButton
 {
-    UILabel *captureLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, self.view.frame.size.height - 100.0, 60.0, 60.0)];
-    captureLabel.backgroundColor = [UIColor clearColor];
-    captureLabel.userInteractionEnabled = true;
-    captureLabel.layer.cornerRadius = captureLabel.frame.size.width / 2;
-    captureLabel.layer.masksToBounds = true;
-    captureLabel.layer.borderWidth = 4.0;
-    captureLabel.layer.borderColor = [[UIColor redColor]  CGColor];
-    [self.view addSubview:captureLabel];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(captureImage)];
-    [captureLabel addGestureRecognizer:tapGesture];
+    if (!captureLabel) {
+        captureLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, self.view.frame.size.height - 100.0, 60.0, 60.0)];
+        captureLabel.backgroundColor = [UIColor clearColor];
+        captureLabel.userInteractionEnabled = true;
+        captureLabel.layer.cornerRadius = captureLabel.frame.size.width / 2;
+        captureLabel.layer.masksToBounds = true;
+        captureLabel.layer.borderWidth = 4.0;
+        captureLabel.layer.borderColor = [[UIColor redColor]  CGColor];
+        [self.view addSubview:captureLabel];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(captureImage)];
+        [captureLabel addGestureRecognizer:tapGesture];
+    }
 }
 
--(void)addCancelButton
+- (void)addCancelButton
 {
-    UILabel *cancelLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, 40.0, 40.0, 40.0)];
-    cancelLabel.backgroundColor = [UIColor clearColor];
-    cancelLabel.userInteractionEnabled = true;
-    [self.view addSubview:cancelLabel];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel)];
-    [cancelLabel addGestureRecognizer:tapGesture];
-    
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 20*1.41, 3.0)];
-    line1.backgroundColor = [UIColor redColor];
-    CGAffineTransform transform1 = CGAffineTransformMakeTranslation(-10*1.41, 0);
-    transform1 = CGAffineTransformRotate(transform1, 45*M_PI/180);
-    transform1 = CGAffineTransformTranslate(transform1,10*1.41,0);
-    line1.transform = transform1;
-    [cancelLabel addSubview:line1];
-    
-    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 30, 20*1.41, 3.0)];
-    line2.backgroundColor = [UIColor redColor];
-    CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-10*1.41, 0);
-    transform2 = CGAffineTransformRotate(transform2, -45*M_PI/180);
-    transform2 = CGAffineTransformTranslate(transform2,10*1.41,0);
-    line2.transform = transform2;
-    [cancelLabel addSubview:line2];
+    if (!cancelLabel) {
+        cancelLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, 40.0, 40.0, 40.0)];
+        cancelLabel.backgroundColor = [UIColor clearColor];
+        cancelLabel.userInteractionEnabled = true;
+        [self.view addSubview:cancelLabel];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancel)];
+        [cancelLabel addGestureRecognizer:tapGesture];
+        
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 20*1.41, 3.0)];
+        line1.backgroundColor = [UIColor redColor];
+        CGAffineTransform transform1 = CGAffineTransformMakeTranslation(-10*1.41, 0);
+        transform1 = CGAffineTransformRotate(transform1, 45*M_PI/180);
+        transform1 = CGAffineTransformTranslate(transform1,10*1.41,0);
+        line1.transform = transform1;
+        [cancelLabel addSubview:line1];
+        
+        UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(10, 30, 20*1.41, 3.0)];
+        line2.backgroundColor = [UIColor redColor];
+        CGAffineTransform transform2 = CGAffineTransformMakeTranslation(-10*1.41, 0);
+        transform2 = CGAffineTransformRotate(transform2, -45*M_PI/180);
+        transform2 = CGAffineTransformTranslate(transform2,10*1.41,0);
+        line2.transform = transform2;
+        [cancelLabel addSubview:line2];
+    }
 }
 
 - (void)configureCamera
 {
     [self initializeCameraSession];
-    [self addInputDeviceForCameraType:cameraType];
+    [self addInputDeviceForCameraType:_cameraType];
     [self addImageOutput];
 }
 
@@ -106,7 +123,7 @@
 - (void)addInputDeviceForCameraType:(CameraType)camera
 {
     for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
-        switch (cameraType) {
+        switch (_cameraType) {
             case CameraTypeFront:
                 if (device.position == AVCaptureDevicePositionFront) {
                     self.currentCameraDevice = device;
@@ -183,26 +200,45 @@
     
     if (videoConnection) {
         [self.stillImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-            CFDictionaryRef metadata = CMGetAttachment(imageDataSampleBuffer, kCGImagePropertyExifDictionary, NULL);
-            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
-            [self.delegate didCaptureImage:image];
-            [self dismissViewControllerAnimated:YES completion:nil];
-            //NSLog(image);
+            if (!error) {
+                CFDictionaryRef metadata = CMGetAttachment(imageDataSampleBuffer, kCGImagePropertyExifDictionary, NULL);
+                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                UIImage *image = [[UIImage alloc] initWithData:imageData];
+                [self.delegate didCaptureImage:image];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            else {
+                DebugLog(@"%@", [TiUtils messageFromError:error]);
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         }];
     }
-    [self setTorchMode:AVCaptureTorchModeOff];
+    [self stopSession];
 }
 
 - (void)cancel
 {
-    [self setTorchMode:AVCaptureTorchModeOff];
+    [self stopSession];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)stopSession
+{
+    [self.session stopRunning];
+    [self setTorchMode:AVCaptureTorchModeOff];
+    if (self.session ) {
+        
+    }
+}
+
+- (void)showNativeControl:(BOOL)show
+{
+    shouldShowControl = show;
 }
 
 - (void)setTorchMode:(AVCaptureTorchMode)torchMode
 {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *device = self.currentCameraDevice;
     if ([device hasTorch]) {
         [device lockForConfiguration:nil];
         if ([device isTorchModeSupported:torchMode]) {
@@ -212,9 +248,14 @@
     }
 }
 
+- (AVCaptureTorchMode)torchMode
+{
+    return self.currentCameraDevice.torchMode;
+}
+
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode
 {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *device = self.currentCameraDevice;
     if ([device hasFlash]) {
         [device lockForConfiguration:nil];
         if ([device isFlashModeSupported:flashMode]) {
@@ -224,9 +265,14 @@
     }
 }
 
+- (AVCaptureFlashMode)flashMode
+{
+    return self.currentCameraDevice.flashMode;
+}
+
 - (void)setFocusMode:(AVCaptureFocusMode)focusMode
 {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *device = self.currentCameraDevice;
     [device lockForConfiguration:nil];
     if ([device isFocusModeSupported:focusMode]) {
         [device setFocusMode:focusMode];
@@ -234,17 +280,27 @@
     [device unlockForConfiguration];
 }
 
-- (void)setCameraType:(CameraType)camera
+- (AVCaptureFocusMode)focusMode
 {
-    cameraType = camera;
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    return self.currentCameraDevice.focusMode;
+}
+
+- (void)setCameraType:(CameraType)cameraType
+{
+    _cameraType = cameraType;
     if (self.session) {
-        
+        // TO DO Add animation while camera is switching
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         } completion:^(BOOL finished) {
-            [self addInputDeviceForCameraType:cameraType];
+            [self addInputDeviceForCameraType:_cameraType];
         }];
-       // + (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion
     }
+}
+
+- (CameraType)cameraType
+{
+    return _cameraType;
 }
 
 @end
