@@ -32,5 +32,6 @@
 
 - (void)showNativeControl:(BOOL)show;
 - (void)captureImage;
+- (void)cancel;
 
 @end

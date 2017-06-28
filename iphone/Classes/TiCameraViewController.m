@@ -205,15 +205,13 @@
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
                 [self.delegate didCaptureImage:image];
-                [self dismissViewControllerAnimated:YES completion:nil];
             }
             else {
                 DebugLog(@"%@", [TiUtils messageFromError:error]);
-                [self dismissViewControllerAnimated:YES completion:nil];
             }
+            [self cancel];
         }];
     }
-    [self stopSession];
 }
 
 - (void)cancel

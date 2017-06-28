@@ -172,6 +172,11 @@
     }
 }
 
+- (CameraType)cameraType
+{
+    return NUMINT(cameraViewController.cameraType);
+}
+
 - (void)captureImage:(id)arg
 {
     ENSURE_UI_THREAD(captureImage, arg);
@@ -179,9 +184,13 @@
         [cameraViewController captureImage];
     }
 }
-- (CameraType)cameraType
+
+- (void)dismiss:(id)arg
 {
-    return NUMINT(cameraViewController.cameraType);
+    ENSURE_UI_THREAD(captureImage, arg);
+    if (cameraViewController != nil) {
+        [cameraViewController cancel];
+    }
 }
 
 - (void)callbackSetup:(NSDictionary *)args
