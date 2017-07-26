@@ -1,0 +1,203 @@
+name: Modules.CameraView
+summary: Allows a Titanium application to create camera.
+platforms: [iphone, ipad]
+since: {iphone: "6.2.0", ipad: "6.2.0"}
+extends: Titanium.Module
+description: |
+    This module provides facility to create camera. In this camera is created using AVFoundation 
+    framework's APIs. So more camera control APIs are available with this module. This module is 
+    not rich in native controls of camera. If you are interested in creating custom camera control
+    and want to use APIs of AVFoundation framework, it is suitable. If want to use default native 
+    camera controls, Titanium.Media is better.
+
+    ### Getting Started
+
+    Add the module as a dependency to your application by adding a **`<module>`** item to the
+    **`<modules>`** element of your `tiapp.xml` file:
+
+        <ti:app>
+          ...
+          <modules>
+            <module platform="iphone">ti.cameraview</module>
+          </modules>
+          ...
+        </ti:app>
+
+    Use `require()` to access the module from JavaScript:
+
+        var TiCamera = require("ti.cameraview");
+
+    The `TiCamera` variable is a reference to the module. Make API calls using this reference:
+
+       var camera = TiCamera.createCamera({
+            saveToPhotoGallery: true,
+            torchMode:TiCamera.TORCH_MODE_OFF,
+            success: function(e) {
+                Ti.API.info(e.media.width);
+            }
+        });
+        camera.open();
+
+    ### Sample Application
+
+    The module contains a sample application in the
+    `<TITANIUM_SDK_HOME>/modules/iphone/ti.cameraview/<VERSION>/example/` folder.
+
+methods:
+  - name: createCamera
+    summary: Creates instance of camera with given properties.
+    parameters:
+      - name: params
+        summary: You should properties e.g succcess callback , error callback.
+        type: Dictionary
+
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+    
+  - name: open
+    summary: This will open the camera.
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: add
+    summary: Add views on camera screen as subviews.
+    description: |
+        This is used to add custom camera controls on camera view.
+    parameters:
+      - name: params
+        summary: Use TiUIButtonProxy, TiUILabelProxy etc. to use as control of camera.
+        type: TiViewProxy
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: captureImage
+    summary: Will capture image and send it in callback.
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: dismiss
+    summary: Close the camera.
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+properties:    
+  - name: showNativeControl
+    summary: Whether want to show or hide native camera control.
+    type: Boolean
+    default: false
+    availability: creation
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+    
+  - name: torchMode
+    summary: Indicates current mode of the receiver's torch, if it has one.
+    type: [TORCH_MODE_*]
+    default: TORCH_MODE_AUTO
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: flashMode
+    summary: Indicates current focus mode of the receiver, if it has one.
+    type: [FLASH_MODE_*]
+    default: FLASH_MODE_OFF
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+ - name: focusMode
+    summary: Indicates current mode of the receiver's flash, if it has one.
+    type: [FOCUS_MODE_*]
+    default: FOCUS_MODE_AUTO_FOCUS
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+ - name: cameraType
+    summary: Indicates current camera type in use.
+    type: [CAMERA_TYPE_*]
+    default: CAMERA_TYPE_REAR
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+    
+  - name: TORCH_MODE_OFF
+    summary: Constant indicating that the torch should always be off.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: TORCH_MODE_ON
+    summary: Constant indicating that the torch should always be on.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: TORCH_MODE_AUTO
+    summary: |
+        Constant indicating that the torch should be used automatically depending on 
+        ambient light conditions.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+   - name: FLASH_MODE_OFF
+    summary: Constant indicating that the flash should always be off.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: FLASH_MODE_ON
+    summary: Constant indicating that the flash should always be on.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: FLASH_MODE_AUTO
+    summary: |
+        Constant indicating that the flash should be used automatically depending on 
+        ambient light conditions.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+   - name: FOCUS_MODE_LOCKED
+    summary: Constant indicating that the focus should be locked at the lens' current position.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: FOCUS_MODE_AUTO_FOCUS
+    summary: |
+        Constant indicating that the device should autofocus once and then change the focus mode 
+        to FOCUS_MODE_LOCKED.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: FOCUS_MODE_CONTINUOUS_AUTO_FOCUS
+    summary: Constant indicating that the device should automatically focus when needed.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+    
+    - name: CAMERA_TYPE_FRONT
+    summary: Constant indicating the front camera of device.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: CAMERA_TYPE_REAR
+    summary: Constant indicating the rear camera of device.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+    

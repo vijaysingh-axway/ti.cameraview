@@ -288,7 +288,7 @@
 {
     _cameraType = cameraType;
     if (self.session) {
-        // TO DO Add animation while camera is switching
+        // TO DO: Add animation while camera is switching
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         } completion:^(BOOL finished) {
             [self addInputDeviceForCameraType:_cameraType];

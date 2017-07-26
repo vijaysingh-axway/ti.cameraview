@@ -88,6 +88,7 @@
         return self;
     }
 }
+
 - (void)open:(id)args
 {
     ENSURE_UI_THREAD(open, args);
@@ -98,7 +99,7 @@
 {
     ENSURE_SINGLE_ARG_OR_NIL(arg, TiViewProxy);
     ENSURE_UI_THREAD(add,arg);
-    if (cameraViewController != nil) {
+    if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
         TiViewProxy *viewProxy = [arg retain];
         UIView *view = [viewProxy view];
         
@@ -107,6 +108,26 @@
         [viewProxy windowWillOpen];
         [cameraViewController.view addSubview:view];
         [viewProxy windowDidOpen];
+    } else {
+        DebugLog(@"Camera creation or camera opening failed");
+    }
+}
+
+- (void)captureImage:(id)arg
+{
+    ENSURE_UI_THREAD(captureImage, arg);
+    if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
+        [cameraViewController captureImage];
+    } else {
+        DebugLog(@"Camera creation or camera opening failed");
+    }
+}
+
+- (void)dismiss:(id)arg
+{
+    ENSURE_UI_THREAD(dismiss, arg);
+    if (cameraViewController != nil) {
+        [cameraViewController cancel];
     }
 }
 
@@ -177,21 +198,7 @@
     return NUMINT(cameraViewController.cameraType);
 }
 
-- (void)captureImage:(id)arg
-{
-    ENSURE_UI_THREAD(captureImage, arg);
-    if (cameraViewController != nil) {
-        [cameraViewController captureImage];
-    }
-}
-
-- (void)dismiss:(id)arg
-{
-    ENSURE_UI_THREAD(captureImage, arg);
-    if (cameraViewController != nil) {
-        [cameraViewController cancel];
-    }
-}
+#pragma Private APIs
 
 - (void)callbackSetup:(NSDictionary *)args
 {
