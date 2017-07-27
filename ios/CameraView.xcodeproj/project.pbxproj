@@ -35,8 +35,8 @@
 		DB942C7E1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DB942C7C1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m */; };
 		DB942C821F2A10AD00CE18F4 /* TiCameraviewViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = DB942C801F2A10AD00CE18F4 /* TiCameraviewViewProxy.h */; };
 		DB942C831F2A10AD00CE18F4 /* TiCameraviewViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DB942C811F2A10AD00CE18F4 /* TiCameraviewViewProxy.m */; };
-		DB942C861F2A10B500CE18F4 /* TiCameraviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = DB942C841F2A10B500CE18F4 /* TiCameraviewView.h */; };
-		DB942C871F2A10B500CE18F4 /* TiCameraviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB942C851F2A10B500CE18F4 /* TiCameraviewView.m */; };
+		DB942C8A1F2A11E800CE18F4 /* TiCameraviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = DB942C881F2A11E800CE18F4 /* TiCameraviewView.h */; };
+		DB942C8B1F2A11E800CE18F4 /* TiCameraviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB942C891F2A11E800CE18F4 /* TiCameraviewView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,8 +77,8 @@
 		DB942C7C1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiCameraViewCameraProxy.m; path = Classes/TiCameraViewCameraProxy.m; sourceTree = "<group>"; };
 		DB942C801F2A10AD00CE18F4 /* TiCameraviewViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraviewViewProxy.h; path = Classes/TiCameraviewViewProxy.h; sourceTree = "<group>"; };
 		DB942C811F2A10AD00CE18F4 /* TiCameraviewViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiCameraviewViewProxy.m; path = Classes/TiCameraviewViewProxy.m; sourceTree = "<group>"; };
-		DB942C841F2A10B500CE18F4 /* TiCameraviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiCameraviewView.h; sourceTree = "<group>"; };
-		DB942C851F2A10B500CE18F4 /* TiCameraviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiCameraviewView.m; sourceTree = "<group>"; };
+		DB942C881F2A11E800CE18F4 /* TiCameraviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraviewView.h; path = Classes/TiCameraviewView.h; sourceTree = "<group>"; };
+		DB942C891F2A11E800CE18F4 /* TiCameraviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiCameraviewView.m; path = Classes/TiCameraviewView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +181,8 @@
 		DB942C7F1F2A109000CE18F4 /* Camera View */ = {
 			isa = PBXGroup;
 			children = (
-				DB942C841F2A10B500CE18F4 /* TiCameraviewView.h */,
-				DB942C851F2A10B500CE18F4 /* TiCameraviewView.m */,
+				DB942C881F2A11E800CE18F4 /* TiCameraviewView.h */,
+				DB942C891F2A11E800CE18F4 /* TiCameraviewView.m */,
 				DB942C801F2A10AD00CE18F4 /* TiCameraviewViewProxy.h */,
 				DB942C811F2A10AD00CE18F4 /* TiCameraviewViewProxy.m */,
 			);
@@ -200,7 +200,7 @@
 				DB942C761F2A072100CE18F4 /* TiCameraViewConstants.h in Headers */,
 				24DD6CF91134B3F500162E58 /* TiCameraviewModule.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* TiCameraviewModuleAssets.h in Headers */,
-				DB942C861F2A10B500CE18F4 /* TiCameraviewView.h in Headers */,
+				DB942C8A1F2A11E800CE18F4 /* TiCameraviewView.h in Headers */,
 				DB942C821F2A10AD00CE18F4 /* TiCameraviewViewProxy.h in Headers */,
 				19C987321EC3F4690039D262 /* TiCameraViewController.h in Headers */,
 				DB942C7D1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h in Headers */,
@@ -281,7 +281,7 @@
 				DB942C7E1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m in Sources */,
 				19C987331EC3F4690039D262 /* TiCameraViewController.m in Sources */,
 				24DD6CFA1134B3F500162E58 /* TiCameraviewModule.m in Sources */,
-				DB942C871F2A10B500CE18F4 /* TiCameraviewView.m in Sources */,
+				DB942C8B1F2A11E800CE18F4 /* TiCameraviewView.m in Sources */,
 				DB942C831F2A10AD00CE18F4 /* TiCameraviewViewProxy.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiCameraviewModuleAssets.m in Sources */,
 			);
