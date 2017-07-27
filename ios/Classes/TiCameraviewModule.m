@@ -40,7 +40,7 @@
     return self;
 }
 
-#pragma Public APIs
+#pragma mark Public APIs
 
 - (id)createCamera:(id)args
 {
@@ -86,13 +86,13 @@
     [[TiApp app] showModalController:cameraViewController animated:true];
 }
 
-- (void)add:(id)arg
+- (void)add:(id)args
 {
-    ENSURE_SINGLE_ARG_OR_NIL(arg, TiViewProxy);
-    ENSURE_UI_THREAD(add, arg);
+    ENSURE_SINGLE_ARG_OR_NIL(args, TiViewProxy);
+    ENSURE_UI_THREAD(add, args);
 
     if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
-        TiViewProxy *viewProxy = arg;
+        TiViewProxy *viewProxy = args;
         UIView *view = [viewProxy view];
         
         ApplyConstraintToViewWithBounds([viewProxy layoutProperties], (TiUIView *)view, [cameraViewController.view bounds]);
@@ -105,9 +105,9 @@
     }
 }
 
-- (void)captureImage:(id)arg
+- (void)captureImage:(id)args
 {
-    ENSURE_UI_THREAD(captureImage, arg);
+    ENSURE_UI_THREAD(captureImage, args);
 
     if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
         [cameraViewController captureImage];
@@ -116,31 +116,28 @@
     }
 }
 
-- (void)dismiss:(id)arg
+- (void)dismiss:(__unused id)unused
 {
-    ENSURE_UI_THREAD(dismiss, arg);
+    ENSURE_UI_THREAD(dismiss, unused);
 
     if (cameraViewController != nil) {
         [cameraViewController cancel];
     }
 }
 
-- (void)showNativeControl:(id)value
+- (void)showNativeControl:(NSNumber *)showNativeControl
 {
-    ENSURE_SINGLE_ARG(value, NSNumber);
-
     if (cameraViewController != nil) {
-        [cameraViewController showNativeControl:[TiUtils boolValue:value def:NO]];
+        [cameraViewController showNativeControl:[TiUtils boolValue:showNativeControl def:NO]];
     }
 }
 
-- (void)setTorchMode:(id)value
+- (void)setTorchMode:(NSNumber *)torchMode
 {
-    ENSURE_SINGLE_ARG(value, NSNumber);
-    ENSURE_UI_THREAD(setTorchMode, value);
+    ENSURE_UI_THREAD(setTorchMode, torchMode);
     
     if (cameraViewController != nil) {
-        [cameraViewController setTorchMode:[TiUtils intValue:value]];
+        [cameraViewController setTorchMode:[TiUtils intValue:torchMode]];
     }
 }
 - (NSNumber *)torchMode
@@ -148,28 +145,26 @@
     return NUMINT(cameraViewController.torchMode);
 }
 
-- (void)setFlashMode:(id)value
+- (void)setFlashMode:(NSNumber *)flashMode
 {
-    ENSURE_UI_THREAD(setFlashMode, value);
-    ENSURE_SINGLE_ARG(value, NSNumber);
+    ENSURE_UI_THREAD(setFlashMode, flashMode);
     
     if (cameraViewController != nil) {
-        [cameraViewController setFlashMode:[TiUtils intValue:value]];
+        [cameraViewController setFlashMode:[TiUtils intValue:flashMode]];
     }
 }
 
 - (NSNumber *)flashMode
 {
-    return NUMINT(cameraViewController.flashMode);
+    return NUMINT([cameraViewController flashMode]);
 }
 
-- (void)setFocushMode:(id)value
+- (void)setFocusMode:(id)focusMode
 {
-    ENSURE_UI_THREAD(setFocushMode, value);
-    ENSURE_SINGLE_ARG(value, NSNumber);
+    ENSURE_UI_THREAD(setFocusMode, focusMode);
     
     if (cameraViewController != nil) {
-        [cameraViewController setFocusMode:[TiUtils intValue:value]];
+        [cameraViewController setFocusMode:[TiUtils intValue:focusMode]];
     }
 }
 
@@ -178,13 +173,12 @@
     return NUMINT(cameraViewController.focusMode);
 }
 
-- (void)setExposureMode:(id)value
+- (void)setExposureMode:(NSNumber *)exposureMode
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);
-    ENSURE_UI_THREAD(setExposureMode,value);
+    ENSURE_UI_THREAD(setExposureMode, exposureMode);
     
     if (cameraViewController != nil) {
-        [cameraViewController setExposureMode:[TiUtils intValue:value]];
+        [cameraViewController setExposureMode:[TiUtils intValue:exposureMode]];
     }
 }
 
@@ -193,19 +187,18 @@
     return NUMINT(cameraViewController.exposureMode);
 }
 
-- (void)setCameraType:(id)value
+- (void)setCameraType:(NSNumber *)cameraType
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);
-    ENSURE_UI_THREAD(setCameraType,value);
+    ENSURE_UI_THREAD(setCameraType, cameraType);
     
     if (cameraViewController != nil) {
-        [cameraViewController setCameraType:[TiUtils intValue:value]];
+        [cameraViewController setCameraType:[TiUtils intValue:cameraType]];
     }
 }
 
-- (CameraType)cameraType
+- (NSNumber *)cameraType
 {
-    return NUMINT(cameraViewController.cameraType);
+    return NUMINT([cameraViewController cameraType]);
 }
 
 #pragma Private APIs
