@@ -1,36 +1,33 @@
+# Ti.CameraView
 
-Summary
----------------
-The Ti.CameraView module allows you to use camera feature of iPhone/iPad. This is implemented using AVFoundation framework, so many apis which are not available with UIImagePickerController in iOS can be used. It will depend on requirement whether to use camera from this module or Media of Titanium SDK. As a simple guideline if you want to create your own control use this otherwise Media.
+## Summary
+The Ti.CameraView module allows you to use native camera features of iOS. 
+This is implemented using the `AVFoundation` framework, which contains many API's that are not 
+available with `UIImagePickerController` that is used in `Ti.Media.showCamera`. It is an optional 
+module that can be used together with Ti.Media of the Titanium SDK or standalone. 
 
-Requirements
+## Requirements
 ---------------
 - Titanium Mobile SDK 6.0.0.GA or later
 - iOS 8.0 or later
 
-Features
----------------
+## Features
 - [x] Camera functionality. 
 
-Example
----------------
+## Example
 Please see the full-featured example in `example/app.js`.
 
-Build from Source
----------------
+## Build from Source
 - iOS: `appc ti build -p ios --build-only` from the `ios` directory
 
 > Note: Please do not use the (deprecated) `build.py` for iOS and `ant` for Android anymore.
 > Those are unified in the above appc-cli these days.
 
-Author
----------------
-Appcelerator
+## Author
+Vijay Vikram Singh, Appcelerator
 
-License
----------------
+## License
 Apache 2.0
 
-Contributing
----------------
+## Contributing
 Code contributions are greatly appreciated, please submit a new [pull request](https://github.com/appcelerator-modules/ti.cameraview/pull/new/master)!
