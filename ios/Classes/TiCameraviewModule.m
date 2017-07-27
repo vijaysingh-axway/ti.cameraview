@@ -31,76 +31,68 @@
 
 #pragma mark Lifecycle
 
--(void)startup
+- (id)_initWithPageContext:(id<TiEvaluator>)context
 {
-	[super startup];
-}
-
-- (void)shutdown:(id)sender
-{
-	[super shutdown:sender];
-}
-
-#pragma mark Cleanup
-
-#pragma mark Internal Memory Management
-
-- (void)didReceiveMemoryWarning:(NSNotification*)notification
-{
-	[super didReceiveMemoryWarning:notification];
+    if (self = [super _initWithPageContext:context]) {
+        saveToRoll = NO;
+    }
+    
+    return self;
 }
 
 #pragma Public APIs
 
 - (id)createCamera:(id)args
 {
-    if (self = [super init]) {
-        ENSURE_SINGLE_ARG_OR_NIL(args,NSDictionary);
-        saveToRoll = false;
-        cameraViewController.delegate = nil;
-        RELEASE_TO_NIL(cameraViewController);
-        cameraViewController = [[TiCameraViewController alloc] init];
-        cameraViewController.delegate = self;
-        if (args != nil) {
-            [self callbackSetup:args];
-            saveToRoll = [TiUtils boolValue:@"saveToPhotoGallery" properties:args def:NO];
-            
-            id showControl = [args objectForKey:@"showControl"];
-            if (showControl) {
-                [self showNativeControl:showControl];
-            }
-            
-            id torchMode = [args objectForKey:@"torchMode"];
-            if (torchMode) {
-                [self setTorchMode:torchMode];
-            }
-            
-            id flashMode = [args objectForKey:@"flashMode"];
-            if (flashMode) {
-                [self setFlashMode:flashMode];
-            }
-            
-            id cameraType = [args objectForKey:@"cameraType"];
-            if (cameraType) {
-                [self setCameraType:cameraType];
-            }
+    // FIXME: This has to return a proxy, e.g. TiCameraviewCameraProxy and won't work right now.
+    
+    ENSURE_SINGLE_ARG_OR_NIL(args,NSDictionary);
+
+    cameraViewController = [[TiCameraViewController alloc] init];
+    cameraViewController.delegate = self;
+
+    if (args != nil) {
+        [self callbackSetup:args];
+
+        saveToRoll = [TiUtils boolValue:@"saveToPhotoGallery" properties:args def:NO];
+
+        id showControl = [args objectForKey:@"showControl"];
+        id torchMode = [args objectForKey:@"torchMode"];
+        id flashMode = [args objectForKey:@"flashMode"];
+        id cameraType = [args objectForKey:@"cameraType"];
+
+        if (showControl) {
+            [self showNativeControl:showControl];
         }
-        return self;
+        
+        if (torchMode) {
+            [self setTorchMode:torchMode];
+        }
+        
+        if (flashMode) {
+            [self setFlashMode:flashMode];
+        }
+        
+        if (cameraType) {
+            [self setCameraType:cameraType];
+        }
     }
 }
 
 - (void)open:(id)args
 {
     ENSURE_UI_THREAD(open, args);
+
     [[TiApp app] showModalController:cameraViewController animated:true];
 }
 
 - (void)add:(id)arg
 {
     ENSURE_SINGLE_ARG_OR_NIL(arg, TiViewProxy);
-    ENSURE_UI_THREAD(add,arg);
+    ENSURE_UI_THREAD(add, arg);
+
     if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
-        TiViewProxy *viewProxy = [arg retain];
+        TiViewProxy *viewProxy = arg;
         UIView *view = [viewProxy view];
         
         ApplyConstraintToViewWithBounds([viewProxy layoutProperties], (TiUIView *)view, [cameraViewController.view bounds]);
@@ -116,6 +108,7 @@
 - (void)captureImage:(id)arg
 {
     ENSURE_UI_THREAD(captureImage, arg);
+
     if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
         [cameraViewController captureImage];
     } else {
@@ -126,6 +119,7 @@
 - (void)dismiss:(id)arg
 {
     ENSURE_UI_THREAD(dismiss, arg);
+
     if (cameraViewController != nil) {
         [cameraViewController cancel];
     }
@@ -133,7 +127,8 @@
 
 - (void)showNativeControl:(id)value
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);    
+    ENSURE_SINGLE_ARG(value, NSNumber);
+
     if (cameraViewController != nil) {
         [cameraViewController showNativeControl:[TiUtils boolValue:value def:NO]];
     }
@@ -141,8 +136,8 @@
 
 - (void)setTorchMode:(id)value
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);
-    ENSURE_UI_THREAD(setTorchMode,value);
+    ENSURE_SINGLE_ARG(value, NSNumber);
+    ENSURE_UI_THREAD(setTorchMode, value);
     
     if (cameraViewController != nil) {
         [cameraViewController setTorchMode:[TiUtils intValue:value]];
@@ -155,8 +150,8 @@
 
 - (void)setFlashMode:(id)value
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);
-    ENSURE_UI_THREAD(setFlashMode,value);
+    ENSURE_UI_THREAD(setFlashMode, value);
+    ENSURE_SINGLE_ARG(value, NSNumber);
     
     if (cameraViewController != nil) {
         [cameraViewController setFlashMode:[TiUtils intValue:value]];
@@ -170,8 +165,8 @@
 
 - (void)setFocushMode:(id)value
 {
-    ENSURE_SINGLE_ARG(value,NSNumber);
-    ENSURE_UI_THREAD(setFocushMode,value);
+    ENSURE_UI_THREAD(setFocushMode, value);
+    ENSURE_SINGLE_ARG(value, NSNumber);
     
     if (cameraViewController != nil) {
         [cameraViewController setFocusMode:[TiUtils intValue:value]];
@@ -217,29 +212,28 @@
 
 - (void)callbackSetup:(NSDictionary *)args
 {
-    id save = [args objectForKey:@"saveToPhotoGallery"];
+    // FIXME: Unused
+    __unused id save = [args objectForKey:@"saveToPhotoGallery"];
+
     successCallback = [args objectForKey:@"success"];
-    ENSURE_TYPE_OR_NIL(successCallback,KrollCallback);
-    [successCallback retain];
+    ENSURE_TYPE_OR_NIL(successCallback, KrollCallback);
     
     errorCallback = [args objectForKey:@"error"];
-    ENSURE_TYPE_OR_NIL(errorCallback,KrollCallback);
-    [errorCallback retain];
-        
+    ENSURE_TYPE_OR_NIL(errorCallback, KrollCallback);
+    
     cancelCallback = [args objectForKey:@"cancel"];
-    ENSURE_TYPE_OR_NIL(cancelCallback,KrollCallback);
-    [cancelCallback retain];
+    ENSURE_TYPE_OR_NIL(cancelCallback, KrollCallback);
 }
 
 -(void)dispatchCallback:(NSArray*)args
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSString *type = [args objectAtIndex:0];
-    id object = [args objectAtIndex:1];
-    id listener = [args objectAtIndex:2];
-    [NSThread sleepForTimeInterval:0.5];
-    [self _fireEventToListener:type withObject:object listener:listener thisObject:nil];
-    [pool release];
+    @autoreleasepool {
+        NSString *type = [args objectAtIndex:0];
+        id object = [args objectAtIndex:1];
+        id listener = [args objectAtIndex:2];
+        [NSThread sleepForTimeInterval:0.5];
+        [self _fireEventToListener:type withObject:object listener:listener thisObject:nil];
+    }
     
 #ifndef TI_USE_KROLL_THREAD
     KrollContext *krollContext = [self.pageContext krollContext];
@@ -249,7 +243,8 @@
 
 -(void)sendPickerSuccess:(id)event
 {
-    id listener = [[successCallback retain] autorelease];
+    id listener = successCallback;
+
     if (listener != nil) {
 #ifdef TI_USE_KROLL_THREAD
         [NSThread detachNewThreadSelector:@selector(dispatchCallback:) toTarget:self withObject:[NSArray arrayWithObjects:@"success",event,listener,nil]];
@@ -265,7 +260,7 @@
 {
     UIImage *resultImage = [TiUtils adjustRotation:image];
 
-    TiBlob *media = [[[TiBlob alloc] _initWithPageContext:[self pageContext]] autorelease];
+    TiBlob *media = [[TiBlob alloc] _initWithPageContext:[self pageContext]];
     [media setImage:resultImage];
     
     if (saveToRoll) {
@@ -278,7 +273,6 @@
     
     [self sendPickerSuccess:dictionary];
     cameraViewController.delegate = nil;
-    RELEASE_TO_NIL(cameraViewController);
 }
 
 #pragma mark Constants

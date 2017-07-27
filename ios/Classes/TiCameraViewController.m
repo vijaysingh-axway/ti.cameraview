@@ -34,11 +34,14 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     [self configureCamera];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if (shouldShowControl) {
         [self addCaptureButton];
         [self addCancelButton];
@@ -48,18 +51,19 @@
 
 - (void)dealloc
 {
-    [self.session stopRunning];
-    RELEASE_TO_NIL(self.session);
-    RELEASE_TO_NIL(self.previewLayer);
-    RELEASE_TO_NIL(self.stillImageOutPut);
-    RELEASE_TO_NIL(captureLabel);
-    RELEASE_TO_NIL(cancelLabel);
-    [super dealloc];
+    [[self session] stopRunning];
+    self.session = nil;
+    self.previewLayer = nil;
+    self.stillImageOutPut = nil;
+    
+    // This should either be private variable with _-prefix or instance property
+    captureLabel = nil;
+    cancelLabel = nil;
 }
 
 - (void)addCaptureButton
 {
-    if (!captureLabel) {
+    if (captureLabel == nil) {
         captureLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, self.view.frame.size.height - 100.0, 60.0, 60.0)];
         captureLabel.backgroundColor = [UIColor clearColor];
         captureLabel.userInteractionEnabled = true;
@@ -75,7 +79,7 @@
 
 - (void)addCancelButton
 {
-    if (!cancelLabel) {
+    if (cancelLabel == nil) {
         
         // FIXME: Use Autolayout
         
@@ -113,12 +117,11 @@
 
 - (void)initializeCameraSession
 {
-    RELEASE_TO_NIL(self.previewLayer);
-    RELEASE_TO_NIL(self.session);
+    CGRect rect = self.view.layer.bounds;
+
     self.session = [[AVCaptureSession alloc] init];
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
     self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    CGRect rect = self.view.layer.bounds;
     
     self.previewLayer.bounds = rect;
     self.previewLayer.position = CGPointMake(CGRectGetMidX(rect),CGRectGetMidY(rect));
@@ -145,6 +148,7 @@
     NSError *error = nil;
     AVCaptureDeviceInput *inputDevice = [AVCaptureDeviceInput deviceInputWithDevice:self.currentCameraDevice error:&error];
     [self.session removeInput:self.session.inputs.firstObject];
+
     if ([self.session canAddInput:inputDevice]) {
         [self.session addInput:inputDevice];
     }
@@ -152,9 +156,11 @@
 
 - (void)addImageOutput
 {
-    self.stillImageOutPut = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = @{AVVideoCodecKey : AVVideoCodecJPEG};
+
+    self.stillImageOutPut = [[AVCaptureStillImageOutput alloc] init];
     [self.stillImageOutPut setOutputSettings:outputSettings];
+
     if ([self.session canAddOutput:self.stillImageOutPut]) {
         [self.session addOutput:self.stillImageOutPut];
     }
@@ -203,13 +209,12 @@
     AVCaptureConnection *videoConnection = [self.stillImageOutPut connectionWithMediaType:AVMediaTypeVideo];
     videoConnection.videoOrientation = [self getVideoOrienation];
     
-    if (videoConnection) {
+    if (videoConnection != nil) {
         [self.stillImageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
             if (!error) {
-                CFDictionaryRef metadata = CMGetAttachment(imageDataSampleBuffer, kCGImagePropertyExifDictionary, NULL);
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
-                [self.delegate didCaptureImage:image];
+                [[self delegate] didCaptureImage:image];
             }
             else {
                 DebugLog(@"%@", [TiUtils messageFromError:error]);
@@ -229,7 +234,8 @@
 {
     [self.session stopRunning];
     [self setTorchMode:AVCaptureTorchModeOff];
-    if (self.session ) {
+    
+    if (self.session != nil) {
         
     }
 }
@@ -259,6 +265,7 @@
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode
 {
     AVCaptureDevice *device = self.currentCameraDevice;
+
     if ([device hasFlash]) {
         [device lockForConfiguration:nil];
         if ([device isFlashModeSupported:flashMode]) {
@@ -306,6 +313,7 @@
 - (void)setCameraType:(CameraType)cameraType
 {
     _cameraType = cameraType;
+
     if (self.session) {
         // TO DO: Add animation while camera is switching
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{

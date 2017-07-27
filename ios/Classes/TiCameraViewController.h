@@ -15,8 +15,7 @@
 
 @end
  
-@interface TiCameraViewController : UIViewController
-{
+@interface TiCameraViewController : UIViewController {
     @private
     CameraType _cameraType;
     UILabel *captureLabel;
