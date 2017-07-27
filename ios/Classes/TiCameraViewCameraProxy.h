@@ -33,7 +33,12 @@
 /**
  @brief To be documented.
  */
-- (void)showNativeControl:(NSNumber *)showNativeControl;
+- (void)add:(id)args;
+
+/**
+ @brief To be documented.
+ */
+- (void)setShowNativeControl:(NSNumber *)showNativeControl;
 
 /**
  @brief To be documented.

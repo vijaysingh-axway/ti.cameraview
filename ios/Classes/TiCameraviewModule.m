@@ -29,28 +29,6 @@
 	return @"ti.cameraview";
 }
 
-#pragma mark Public APIs
-
-// FIXME: Replace with correct view and view-proxy, e.g. TiCameraviewViewProxy / TiCameraviewView
-//- (void)add:(id)args
-//{
-//    ENSURE_SINGLE_ARG_OR_NIL(args, TiViewProxy);
-//    ENSURE_UI_THREAD(add, args);
-//
-//    if ((cameraViewController != nil) && [cameraViewController isViewLoaded]) {
-//        TiViewProxy *viewProxy = args;
-//        UIView *view = [viewProxy view];
-//        
-//        ApplyConstraintToViewWithBounds([viewProxy layoutProperties], (TiUIView *)view, [cameraViewController.view bounds]);
-//        
-//        [viewProxy windowWillOpen];
-//        [cameraViewController.view addSubview:view];
-//        [viewProxy windowDidOpen];
-//    } else {
-//        DebugLog(@"Camera creation or camera opening failed");
-//    }
-//}
-
 #pragma mark Constants
 
 MAKE_SYSTEM_PROP(TORCH_MODE_OFF, AVCaptureTorchModeOff);
