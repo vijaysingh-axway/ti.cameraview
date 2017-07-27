@@ -1,21 +1,22 @@
 /**
  * Appcelerator Titanium Mobile
- * Copyright (c) 2009-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 20017-present by Axway Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  *
  */
 
 #import "TiApp.h"
-#import <ImageIO/ImageIO.h>
 #import "TiCameraViewController.h"
+
+#import <ImageIO/ImageIO.h>
 
 @interface TiCameraViewController ()
 
-@property(nonatomic, strong)AVCaptureSession *session;
-@property(nonatomic, strong)AVCaptureDevice *currentCameraDevice;
-@property(nonatomic, strong)AVCaptureStillImageOutput *stillImageOutPut;
-@property(nonatomic, strong)AVCaptureVideoPreviewLayer *previewLayer;
+@property(nonatomic, strong) AVCaptureSession *session;
+@property(nonatomic, strong) AVCaptureDevice *currentCameraDevice;
+@property(nonatomic, strong) AVCaptureStillImageOutput *stillImageOutPut;
+@property(nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 
 @end
 
@@ -26,8 +27,9 @@
     if (self = [super init]) {
         _cameraType = CameraTypeRear;
         shouldShowControl = NO;
-        return self;
     }
+
+    return self;
 }
 
 - (void)viewDidLoad
@@ -74,6 +76,9 @@
 - (void)addCancelButton
 {
     if (!cancelLabel) {
+        
+        // FIXME: Use Autolayout
+        
         cancelLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 60.0)/2, 40.0, 40.0, 40.0)];
         cancelLabel.backgroundColor = [UIColor clearColor];
         cancelLabel.userInteractionEnabled = true;

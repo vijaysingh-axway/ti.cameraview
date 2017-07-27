@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile
- * Copyright (c) 2009-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 20017-present by Axway Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  *
@@ -13,7 +13,7 @@
 #import "TiUtils.h"
 #import "TiApp.h"
 #import <AVFoundation/AVFoundation.h>
-#import "Constants.h"
+#import "TiCameraViewConstants.h"
 
 @implementation TiCameraviewModule
 
