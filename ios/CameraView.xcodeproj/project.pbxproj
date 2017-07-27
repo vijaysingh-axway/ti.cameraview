@@ -31,6 +31,8 @@
 		AA747D9F0F9514B9006C5449 /* TiCameraview_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* TiCameraview_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		DB942C761F2A072100CE18F4 /* TiCameraViewConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DB942C751F2A072100CE18F4 /* TiCameraViewConstants.h */; };
+		DB942C7D1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = DB942C7B1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h */; };
+		DB942C7E1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DB942C7C1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libti.cameraview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libti.cameraview.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB942C751F2A072100CE18F4 /* TiCameraViewConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraViewConstants.h; path = Classes/TiCameraViewConstants.h; sourceTree = "<group>"; };
+		DB942C7B1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiCameraViewCameraProxy.h; path = Classes/TiCameraViewCameraProxy.h; sourceTree = "<group>"; };
+		DB942C7C1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiCameraViewCameraProxy.m; path = Classes/TiCameraViewCameraProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DB942C7A1F2A0BEF00CE18F4 /* Camera */,
 				DB942C771F2A072400CE18F4 /* Module */,
 				DB942C781F2A072B00CE18F4 /* Camera View Controller */,
 				DB942C791F2A073300CE18F4 /* Utilities */,
@@ -155,6 +160,15 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		DB942C7A1F2A0BEF00CE18F4 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				DB942C7B1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h */,
+				DB942C7C1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -167,6 +181,7 @@
 				24DD6CF91134B3F500162E58 /* TiCameraviewModule.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* TiCameraviewModuleAssets.h in Headers */,
 				19C987321EC3F4690039D262 /* TiCameraViewController.h in Headers */,
+				DB942C7D1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB942C7E1F2A0C0900CE18F4 /* TiCameraViewCameraProxy.m in Sources */,
 				19C987331EC3F4690039D262 /* TiCameraViewController.m in Sources */,
 				24DD6CFA1134B3F500162E58 /* TiCameraviewModule.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiCameraviewModuleAssets.m in Sources */,

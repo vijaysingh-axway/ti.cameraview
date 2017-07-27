@@ -22,11 +22,12 @@
 
 @implementation TiCameraViewController
 
-- (id)init
+- (id)initWithDelegate:(id<TiImageCaptureDelegate>)delegate
 {
     if (self = [super init]) {
-        _cameraType = CameraTypeRear;
-        shouldShowControl = NO;
+        _cameraType = TiCameraTypeRear;
+        _shouldShowControl = NO;
+        _delegate = delegate;
     }
 
     return self;
@@ -42,7 +43,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (shouldShowControl) {
+    if (_shouldShowControl) {
         [self addCaptureButton];
         [self addCancelButton];
     }
@@ -128,16 +129,16 @@
     [self.view.layer addSublayer:self.previewLayer];
 }
 
-- (void)addInputDeviceForCameraType:(CameraType)camera
+- (void)addInputDeviceForCameraType:(TiCameraType)camera
 {
     for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
         switch (_cameraType) {
-            case CameraTypeFront:
+            case TiCameraTypeFront:
                 if (device.position == AVCaptureDevicePositionFront) {
                     self.currentCameraDevice = device;
                 }
                 break;
-            case CameraTypeRear:
+            case TiCameraTypeRear:
                 if (device.position == AVCaptureDevicePositionBack) {
                     self.currentCameraDevice = device;
                 }
@@ -240,9 +241,9 @@
     }
 }
 
-- (void)showNativeControl:(BOOL)show
+- (void)showNativeControl:(BOOL)showNativeControl
 {
-    shouldShowControl = show;
+    _shouldShowControl = showNativeControl;
 }
 
 - (void)setTorchMode:(AVCaptureTorchMode)torchMode
@@ -310,7 +311,7 @@
     return self.currentCameraDevice.exposureMode;
 }
 
-- (void)setCameraType:(CameraType)cameraType
+- (void)setCameraType:(TiCameraType)cameraType
 {
     _cameraType = cameraType;
 
@@ -323,7 +324,7 @@
     }
 }
 
-- (CameraType)cameraType
+- (TiCameraType)cameraType
 {
     return _cameraType;
 }

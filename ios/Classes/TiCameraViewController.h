@@ -17,10 +17,10 @@
  
 @interface TiCameraViewController : UIViewController {
     @private
-    CameraType _cameraType;
+    TiCameraType _cameraType;
     UILabel *captureLabel;
     UILabel *cancelLabel;
-    BOOL shouldShowControl;
+    BOOL _shouldShowControl;
 }
 
 @property(nonatomic, assign)id <TiImageCaptureDelegate> delegate;
@@ -28,7 +28,9 @@
 @property(nonatomic) AVCaptureFlashMode flashMode;
 @property(nonatomic) AVCaptureFocusMode focusMode;
 @property(nonatomic) AVCaptureExposureMode exposureMode;
-@property(nonatomic) CameraType cameraType;
+@property(nonatomic) TiCameraType cameraType;
+
+- (id)initWithDelegate:(id<TiImageCaptureDelegate>)delegate;
 
 - (void)showNativeControl:(BOOL)show;
 - (void)captureImage;
