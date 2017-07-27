@@ -110,6 +110,12 @@ properties:
     platforms: [iphone, ipad]
     since: "6.2.0"
 
+ - name: exposureMode
+    summary: Indicates current exposure mode of the receiver, if it has adjustable exposure.
+    type: [EXPOSURE_MODE_*]
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
  - name: cameraType
     summary: Indicates current camera type in use.
     type: [CAMERA_TYPE_*]
@@ -181,6 +187,38 @@ properties:
 
   - name: FOCUS_MODE_CONTINUOUS_AUTO_FOCUS
     summary: Constant indicating that the device should automatically focus when needed.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: EXPOSURE_MODE_LOCKED
+    summary: Constant indicating that the exposure should be locked at its current value.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: EXPOSURE_MODE_AUTO_EXPOSE
+    summary: |
+        Constant indicating that the device should automatically adjust exposure once and then 
+        change the exposure mode to EXPOSURE_MODE_LOCKED.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: EXPOSURE_MODE_CONTINUOUS_AUTO_EXPOSE
+    summary: Constant indicating that the device should automatically adjust exposure when needed.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+    since: "6.2.0"
+
+  - name: EXPOSURE_MODE_CUSTOM
+    summary: |
+        Constant indicating that the device should only adjust exposure according to user provided 
+        ISO, exposureDuration values.
     type: Number
     permission: read-only
     platforms: [iphone, ipad]

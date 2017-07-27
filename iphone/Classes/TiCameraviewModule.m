@@ -183,6 +183,21 @@
     return NUMINT(cameraViewController.focusMode);
 }
 
+- (void)setExposureMode:(id)value
+{
+    ENSURE_SINGLE_ARG(value,NSNumber);
+    ENSURE_UI_THREAD(setExposureMode,value);
+    
+    if (cameraViewController != nil) {
+        [cameraViewController setExposureMode:[TiUtils intValue:value]];
+    }
+}
+
+- (NSNumber *)exposureMode
+{
+    return NUMINT(cameraViewController.exposureMode);
+}
+
 - (void)setCameraType:(id)value
 {
     ENSURE_SINGLE_ARG(value,NSNumber);
@@ -279,6 +294,11 @@ MAKE_SYSTEM_PROP(FLASH_MODE_AUTO,AVCaptureFlashModeAuto);
 MAKE_SYSTEM_PROP(FOCUS_MODE_LOCKED,AVCaptureFocusModeLocked);
 MAKE_SYSTEM_PROP(FOCUS_MODE_AUTO_FOCUS,AVCaptureFocusModeAutoFocus);
 MAKE_SYSTEM_PROP(FOCUS_MODE_CONTINUOUS_AUTO_FOCUS,AVCaptureFocusModeContinuousAutoFocus);
+
+MAKE_SYSTEM_PROP(EXPOSURE_MODE_LOCKED, AVCaptureExposureModeLocked);
+MAKE_SYSTEM_PROP(EXPOSURE_MODE_AUTO_EXPOSE, AVCaptureExposureModeAutoExpose);
+MAKE_SYSTEM_PROP(EXPOSURE_MODE_CONTINUOUS_AUTO_EXPOSE, AVCaptureExposureModeContinuousAutoExposure);
+MAKE_SYSTEM_PROP(EXPOSURE_MODE_CUSTOM, AVCaptureExposureModeCustom);
 
 MAKE_SYSTEM_PROP(CAMERA_TYPE_FRONT,CameraTypeFront);
 MAKE_SYSTEM_PROP(CAMERA_TYPE_REAR,CameraTypeRear);

@@ -280,8 +280,22 @@
 
 - (AVCaptureFocusMode)focusMode
 {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     return self.currentCameraDevice.focusMode;
+}
+
+- (void)setExposureMode:(AVCaptureExposureMode)exposureMode
+{
+    AVCaptureDevice *device = self.currentCameraDevice;
+    [device lockForConfiguration:nil];
+    if ([device isExposureModeSupported:exposureMode]) {
+        [device setExposureMode:exposureMode];
+    }
+    [device unlockForConfiguration];
+}
+
+- (AVCaptureExposureMode)exposureMode
+{
+    return self.currentCameraDevice.exposureMode;
 }
 
 - (void)setCameraType:(CameraType)cameraType

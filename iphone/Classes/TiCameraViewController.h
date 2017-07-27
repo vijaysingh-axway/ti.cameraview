@@ -28,6 +28,7 @@
 @property(nonatomic)AVCaptureTorchMode torchMode;
 @property(nonatomic)AVCaptureFlashMode flashMode;
 @property(nonatomic)AVCaptureFocusMode focusMode;
+@property(nonatomic)AVCaptureExposureMode exposureMode;
 @property(nonatomic)CameraType cameraType;
 
 - (void)showNativeControl:(BOOL)show;
