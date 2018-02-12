@@ -7,7 +7,7 @@
 #import "TiCameraViewController.h"
 #import "TiProxy.h"
 
-@interface TiCameraViewCameraProxy : TiProxy <TiImageCaptureDelegate> {
+@interface TiCameraviewCameraProxy : TiProxy <TiImageCaptureDelegate> {
   TiCameraViewController *_cameraViewController;
   KrollCallback *_successCallback;
   KrollCallback *_errorCallback;

@@ -5,10 +5,10 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiCameraViewCameraProxy.h"
+#import "TiCameraviewCameraProxy.h"
 #import "TiApp.h"
 
-@implementation TiCameraViewCameraProxy
+@implementation TiCameraviewCameraProxy
 
 - (TiCameraViewController *)cameraViewController
 {
@@ -51,7 +51,7 @@
     [[[self cameraViewController] view] addSubview:view];
     [viewProxy windowDidOpen];
   } else {
-    DebugLog(@"Camera creation or camera opening failed");
+    DebugLog(@"[ERROR] Cannot add view: Camera creation or camera opening failed");
   }
 }
 
