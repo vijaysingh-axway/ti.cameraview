@@ -8,6 +8,7 @@ architectures: armv7 arm64 i386 x86_64
 description: Use the native AVCaptureSession API to create camera-views.
 author: Vijay Vikram Singh
 license: Apache 2.0
+copyright: (c) 2018-present by Appcelerator
 
 # these should not be edited
 name: CameraView
