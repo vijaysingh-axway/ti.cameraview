@@ -5,30 +5,30 @@
  * Please see the LICENSE included with this distribution for details.
  *
  */
+#import "TiCameraViewConstants.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
-#import "TiCameraViewConstants.h"
 
 @protocol TiImageCaptureDelegate <NSObject>
 
 - (void)didCaptureImage:(UIImage *)image;
 
 @end
- 
+
 @interface TiCameraViewController : UIViewController {
-    @private
-    TiCameraType _cameraType;
-    UILabel *captureLabel;
-    UILabel *cancelLabel;
-    BOOL _shouldShowControl;
+  @private
+  TiCameraType _cameraType;
+  UILabel *_captureLabel;
+  UILabel *_cancelLabel;
+  BOOL _shouldShowControl;
 }
 
-@property(nonatomic, assign)id <TiImageCaptureDelegate> delegate;
-@property(nonatomic) AVCaptureTorchMode torchMode;
-@property(nonatomic) AVCaptureFlashMode flashMode;
-@property(nonatomic) AVCaptureFocusMode focusMode;
-@property(nonatomic) AVCaptureExposureMode exposureMode;
-@property(nonatomic) TiCameraType cameraType;
+@property (nonatomic, assign) id<TiImageCaptureDelegate> delegate;
+@property (nonatomic) AVCaptureTorchMode torchMode;
+@property (nonatomic) AVCaptureFlashMode flashMode;
+@property (nonatomic) AVCaptureFocusMode focusMode;
+@property (nonatomic) AVCaptureExposureMode exposureMode;
+@property (nonatomic) TiCameraType cameraType;
 
 - (id)initWithDelegate:(id<TiImageCaptureDelegate>)delegate;
 

@@ -7,7 +7,7 @@
 #import "TiUIView.h"
 
 @interface TiCameraviewView : TiUIView {
-    // TODO: Reuse TiCameraViewController
+  // TODO: Reuse TiCameraViewController
 }
 
 @end

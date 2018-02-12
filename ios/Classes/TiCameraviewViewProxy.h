@@ -7,7 +7,6 @@
 #import "TiViewProxy.h"
 
 @interface TiCameraviewViewProxy : TiViewProxy {
-
 }
 
 @end

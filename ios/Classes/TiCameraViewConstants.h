@@ -6,7 +6,7 @@
  *
  */
 
-typedef NS_ENUM(NSInteger,  TiCameraType) {
-    TiCameraTypeRear  = 0,
-    TiCameraTypeFront
+typedef NS_ENUM(NSInteger, TiCameraType) {
+  TiCameraTypeRear = 0,
+  TiCameraTypeFront
 };

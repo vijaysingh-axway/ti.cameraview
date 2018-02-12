@@ -6,14 +6,13 @@
  *
  */
 
-
 #import "TiCameraviewModule.h"
+#import "TiApp.h"
 #import "TiBase.h"
+#import "TiCameraViewConstants.h"
 #import "TiHost.h"
 #import "TiUtils.h"
-#import "TiApp.h"
 #import <AVFoundation/AVFoundation.h>
-#import "TiCameraViewConstants.h"
 
 @implementation TiCameraviewModule
 
@@ -21,12 +20,12 @@
 
 - (id)moduleGUID
 {
-	return @"11297d48-f1a0-4690-af76-e8398f9a6900";
+  return @"11297d48-f1a0-4690-af76-e8398f9a6900";
 }
 
 - (NSString *)moduleId
 {
-	return @"ti.cameraview";
+  return @"ti.cameraview";
 }
 
 #pragma mark Constants

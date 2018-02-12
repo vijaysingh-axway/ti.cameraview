@@ -9,6 +9,4 @@
 
 @implementation TiCameraviewView
 
-
-
 @end

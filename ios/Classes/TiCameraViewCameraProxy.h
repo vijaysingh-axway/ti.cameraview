@@ -4,15 +4,15 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "TiProxy.h"
 #import "TiCameraViewController.h"
+#import "TiProxy.h"
 
 @interface TiCameraViewCameraProxy : TiProxy <TiImageCaptureDelegate> {
-    TiCameraViewController *_cameraViewController;
-    KrollCallback *_successCallback;
-    KrollCallback *_errorCallback;
-    KrollCallback *_cancelCallback;
-    BOOL _saveToPhotoGallery;
+  TiCameraViewController *_cameraViewController;
+  KrollCallback *_successCallback;
+  KrollCallback *_errorCallback;
+  KrollCallback *_cancelCallback;
+  BOOL _saveToPhotoGallery;
 }
 
 /**

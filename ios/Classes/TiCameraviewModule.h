@@ -6,14 +6,12 @@
  *
  */
 
-
-#import "TiCameraViewController.h"
-#import "TiViewProxy.h"
 #import "KrollCallback.h"
+#import "TiCameraViewController.h"
 #import "TiModule.h"
+#import "TiViewProxy.h"
 
 @interface TiCameraviewModule : TiModule {
-
 }
 
 @end
